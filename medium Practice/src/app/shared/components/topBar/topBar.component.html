@@ -1,0 +1,41 @@
+<!--
+  GIVEN — but read the three states, they are the point of this navbar.
+
+  auth.currentUser has three possible values:
+    undefined  we have not heard back from the API yet  -> show neither block
+    null       the API said "nobody is logged in"       -> show Sign in / Sign up
+    {user}     somebody is logged in                    -> show the avatar
+
+  Until stage S5 is done the value stays `undefined`, so this nav renders the
+  brand and "Home" only. Not a bug: open http://localhost:4200/login directly,
+  or finish S5 and the Sign in / Sign up links appear by themselves.
+-->
+<nav class="navbar navbar-light">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">medium</a>
+    <ul class="nav navbar-nav pull-xs-right">
+      <li class="nav-item">
+        <a routerLink="/" class="nav-link">Home</a>
+      </li>
+
+      @let currentUser = currentUser$ | async;
+
+      @if (currentUser) {
+        <li class="nav-item">
+          <a [routerLink]="['/profiles', currentUser.username]" class="nav-link">
+            <img class="user-pic" [src]="currentUser.image" />
+            &nbsp; {{ currentUser.username }}
+          </a>
+        </li>
+      } @else if (currentUser === null) {
+        <li class="nav-item">
+          <a routerLink="/login" class="nav-link"> Sign in </a>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/register" class="nav-link"> Sign up </a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>

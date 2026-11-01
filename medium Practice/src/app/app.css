@@ -1,0 +1,4 @@
+/* The root component only stacks the navbar above the router outlet. */
+:host {
+  display: block;
+}

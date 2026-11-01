@@ -1,0 +1,28 @@
+@if (data$ | async; as data) {
+  @if (data.isLoading) {
+    <mc-loading></mc-loading>
+  }
+  @if (data.error) {
+    <mc-error-message [message]="data.error"></mc-error-message>
+  }
+
+  <div class="sidebar">
+    <p>Popular Tags</p>
+    @if (data.popularTags && data.popularTags.length) {
+      <div class="tag-list">
+        @for (popularTag of data.popularTags; track popularTag) {
+          <a
+            [routerLink]="['/tags', popularTag]"
+            class="tag-default tag-pill"
+            >{{ popularTag }}</a
+          >
+        }
+      </div>
+    }
+    @if (!data.isLoading && !data.popularTags) {
+      <p class="text-muted">
+        No tags yet — the tags slice is empty until stage S7.
+      </p>
+    }
+  </div>
+}
